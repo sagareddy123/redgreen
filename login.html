@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="./login.css">
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username"><br>
+        <input type="password" id="password" placeholder="Password"><br>
+        <button onclick="login()">Login</button>
+    </div>
+
+    <script>
+       async function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === '' || password === '') {
+                alert('Please fill in both fields.');
+                return;
+            }
+
+            const userDetails = { username, password };
+
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userDetails)
+            };
+
+            const url = 'http://localhost:3000/login';
+
+            try {
+                const response = await fetch(url, options);
+                console.log(response, 'this is response')
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                if (data.token) {
+                    localStorage.setItem('jwtToken', data.token);
+                    window.location.href = 'redgreen.html';
+                } else {
+                    alert('Login failed. Please check your credentials.');
+                }
+            } catch (error) {
+                console.error('There has been a problem with your fetch operation:', error);
+                alert('Login failed due to a network error.');
+            }
+        }
+
+    </script>
+</body>
+</html>

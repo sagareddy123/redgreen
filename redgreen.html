@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+        .header{
+            /* position: fixed;
+            top: 0px;
+            left: 0px;
+            right: 0px; */
+            display: flex;
+            flex-direction: column;
+            /* background-color: rgb(60, 214, 60); */
+            color: white;
+            box-shadow: 0 0 10px rgb(0, 0, 0, 0.3);
+            border-bottom-left-radius: 3px;
+            border-bottom-right-radius: 3px;
+            background-image: url('C:/Users/lenovo/OneDrive/Desktop/mosaic-2790344_640.png');
+            background-size: cover; /* Adjusts the image to cover the entire element */
+            background-position: center; /* Centers the image */
+            background-repeat: no-repeat; 
+
+        }
+        .top1{
+            /* height: 30px; */
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 10px;
+            align-items: center;
+        }
+        .codeTimer{
+            margin: 20px 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgb(0, 0, 0, 0.3);
+            padding: 10px;
+
+        }
+        .text{
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 10px;
+            align-items: center;
+        }
+        .color{
+            width: 80px;
+            height: 30px;
+        }
+        .number{
+            width: 50px;
+            height: 25px;
+            background-color: rgb(69, 121, 219);
+        }
+        .Button{
+            border: none;
+            color: white;
+            box-shadow: 0 0 5px rgb(0, 0, 0, 0.3);
+            border-radius: 3px;
+        }
+        .recordsList{
+            flex: 1;
+            border: 1px solid rgb(0, 0, 0);
+        }
+        .footer{
+            position: fixed;
+            bottom: 0px;
+            left: 0px;
+            right: 0px;
+            height: 50px;
+            display: flex;
+            background-color: white;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 0 5px rgb(0, 0, 0, 0.3);
+
+        }
+        .blur{
+            filter: blur(0.8px);
+        }
+        .timer{
+            font-size: 25px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgb(0, 0, 0, 0.5);
+            padding: 2px 5px;
+            width: 60px;
+            text-align: center;
+        }
+        .accountBalance{
+            font-size: 20px;
+            height: 50px;
+            padding: 10px 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            /* background-color: rgb(124, 209, 124); */
+        }
+        .amount{
+            font-size: 20px;
+            background-color: white;
+            border-radius: 5px;
+            color: green;
+            text-align: center;
+            width: fit-content;
+            padding: 0 5px;
+            
+        }
+        .recharge{
+            font-size: 15px;
+            background-color: white;
+            border-radius: 20px;
+            color: green;
+            text-align: center;
+            padding: 7px 15px;
+            border: none;
+        }
+        .recordsLIstHeading{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 5px;
+            border: 1px solid rgb(0, 0, 0, 0.3);
+        }
+        
+        
+    </style>
+    <script>
+        window.onload = function() {
+            const token = localStorage.getItem('jwtToken');
+            if (token) {
+                window.location.href = 'redgreen.html';
+            } else {
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="header" id="header">
+        <div class="top1">
+            <div class="accountBalance" id="accountBalance">
+                <div>Account Balance</div>
+                <div class="amount">₹<span id="amount">45,200</span></div>
+            </div>
+            <button class="recharge" id="recharge">Recharge +</button>
+        </div>
+        <!-- <div class="top1">
+            <div class="code" id="code">Random Code</div>
+            <div class="rule" id="rule">rule</div>
+        </div> -->
+    </div>
+    <div class="codeTimer" id="codeTimer">
+        <div class="text">
+            <div>Period</div>
+            <div>Count Down</div>
+        </div>
+        <div class="text">
+            <div class="code"><span id="code">512457896</span></div>
+            <div class="timer" id="timer">1:42</div>
+        </div>
+    </div>
+    <div id="betButtons">
+    <div class="text">
+        <button class="color Button" onclick="placeBet('green')" style="background-color: green;">Join Green</button>
+        <button class="color Button" onclick="placeBet('violet')" style="background-color: violet;">Join Violet</button>
+        <button class="color Button" onclick="placeBet('red')" style="background-color: red;">Join Red</button>
+    </div>
+    <div class="text">
+        <button class="number Button" onclick="placeBet('0')">0</button>
+        <button class="number Button" onclick="placeBet('1')">1</button>
+        <button class="number Button" onclick="placeBet('2')">2</button>
+        <button class="number Button" onclick="placeBet('3')">3</button>
+        <button class="number Button" onclick="placeBet('4')">4</button>
+    </div> 
+    <div class="text"> 
+        <button class="number Button" onclick="placeBet('5')">5</button>
+        <button class="number Button" onclick="placeBet('6')">6</button>
+        <button class="number Button" onclick="placeBet('7')">7</button>
+        <button class="number Button" onclick="placeBet('8')">8</button>
+        <button class="number Button" onclick="placeBet('9')">9</button>
+    </div>
+    </div>
+    <div class="text" style="margin: 5px;">
+        <p>Record</p>
+        <p>more></p>
+    </div>
+    <div class="recordsList">
+        <div class="recordsLIstHeading">
+            <div>Period</div>
+            <div>Number</div>
+            <div>Color</div>
+        </div>
+        <ul></ul>
+
+    </div>
+    <div class="footer">
+        <div class="home">&#x1F3E0; Home</div>
+        <div class="Profile">&#x1F464; Profile</div>
+    </div>
+
+    <!-- <div id="player"></div> -->
+
+
+<script>
+    function placeBet(value){
+        console.log('Placed Bet')
+
+    }
+
+
+
+    // Load the IFrame Player API code asynchronously.
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    var player;
+    function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+            height: '150',
+            width: '300px',
+            videoId: 'zBjJUV-lzHo', // Replace with your YouTube video ID
+            playerVars: {
+                'controls': 0, // Disable player controls
+                'disablekb': 1 // Disable keyboard control
+            },
+            events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
+            }
+        });
+    }
+
+    function onPlayerReady(event) {
+        // Player is ready
+    }
+
+    function onPlayerStateChange(event) {
+        if (event.data == YT.PlayerState.ENDED) {
+            // Video has ended
+            awardCoins();
+        }
+    }
+
+    function awardCoins() {
+        console.log('Coins awarded!');
+    }
+   
+
+
+
+
+
+
+        // Set the fixed start time (e.g., June 1, 2024, 00:00:00 UTC)
+        const startTime = new Date("2024-06-01T00:00:00Z").getTime();
+
+        function updateTimer() {
+            // Get the current time
+            const now = new Date().getTime();
+
+            // Calculate the elapsed time in milliseconds
+            const elapsed = now - startTime;
+
+            // Define the cycle durations in milliseconds
+            const twoMinutes = 30 * 1000;
+            const fifteenSeconds = 15 * 1000;
+
+            // Calculate the time in the current cycle
+            const cycleTime = elapsed % twoMinutes;
+
+            // console.log('disco')
+            const remainingTime = twoMinutes - cycleTime;
+
+            if (remainingTime <= fifteenSeconds) {
+                document.getElementById('timer').style.color = 'red'
+                disableButton()
+            } else {
+
+                document.getElementById('timer').style.color = 'green'
+                enableButton()
+            }
+
+            // Convert the remaining time to seconds, minutes, and milliseconds
+            const seconds = Math.floor((remainingTime / 1000) % 60);
+            const minutes = Math.floor((remainingTime / (1000 * 60)) % 60);
+
+            // Format the time string
+            const timeString = `${minutes} : ${seconds}`;
+
+            // Display the timer
+            document.getElementById("timer").innerText = timeString;
+        }
+
+        // Initial call to display the timer immediately
+        updateTimer();
+
+        // Update the timer every second
+        setInterval(updateTimer, 1000);
+
+
+        function disableButton(){
+            const buttonContainer = document.getElementById('betButtons')
+            const buttons = buttonContainer.getElementsByClassName('Button');
+             // Disable each button
+            for (const button of buttons) {
+                button.disabled = true;
+            }
+                }
+        function enableButton(){
+            const buttonContainer = document.getElementById('betButtons')
+            const buttons = buttonContainer.getElementsByClassName('Button');
+             // Disable each button
+            for (const button of buttons) {
+                button.disabled = false;
+            }
+                }
+    </script>
+</body>
+</html>
